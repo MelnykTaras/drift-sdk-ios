@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let maxMessageLength = 500
+
 protocol ConversationInputAccessoryViewDelegate: class {
     func didPressRightButton()
     func didPressLeftButton()
@@ -354,5 +356,12 @@ extension ConversationInputAccessoryView : UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         delegate?.didPressView()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let textLength = textField.text?.count else { return true }
+        var maxLimit = maxMessageLength
+        if textLength >= maxLimit && string.count > range.length { return false }
+        return true
     }
 }
