@@ -358,10 +358,7 @@ extension ConversationInputAccessoryView : UITextViewDelegate {
         delegate?.didPressView()
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let textLength = textField.text?.count else { return true }
-        var maxLimit = maxMessageLength
-        if textLength >= maxLimit && string.count > range.length { return false }
-        return true
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return textView.text.count + (text.count - range.length) <= maxMessageLength
     }
 }
